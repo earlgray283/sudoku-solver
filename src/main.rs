@@ -15,7 +15,7 @@ fn main() {
     let mut m = m.to_vec_i32();
 
     let start = Instant::now();
-    let res = dfs(&mut m, (0, 0));
+    let res = solver(&mut m);
     let stop = Instant::now();
 
     println!("took {:?}", stop.duration_since(start));
@@ -24,16 +24,25 @@ fn main() {
         println!("answer not found");
         return;
     }
-    if !m.check_all((0, 0)) {
-        println!("WA!w");
-        return;
+    for i in 0..N {
+        for j in 0..N {
+            if !m.check_all((j, i)) {
+                println!("WA");
+                return;
+            }
+        }
     }
+    
     for i in 0..N {
         for j in 0..N {
             print!("{:3} ", m[i][j]);
         }
         println!();
     }
+}
+
+fn solver(m: &mut Vec<Vec<i32>>) -> bool {
+    dfs(m, (0, 0))
 }
 
 fn dfs(m: &mut Vec<Vec<i32>>, pos: (usize, usize)) -> bool {
